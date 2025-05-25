@@ -16,7 +16,7 @@ func TestInitDB(t *testing.T) {
 			Port:     "5432",
 			User:     "test_user",
 			Password: "test_password",
-			Name:     "test_db",
+			DBName:   "test_db",
 			SSLMode:  "disable",
 		},
 	}
@@ -39,7 +39,7 @@ func TestInitDB(t *testing.T) {
 					Port:     "5432",
 					User:     "invalid-user",
 					Password: "invalid-password",
-					Name:     "invalid-db",
+					DBName:   "invalid-db",
 					SSLMode:  "disable",
 				},
 			},

@@ -6,7 +6,7 @@ A ride-sharing application built with Go, following clean architecture principle
 
 The project follows a standard Go project layout with clean architecture principles:
 
-```
+```unset
 .
 ├── cmd/                    # Application entry points
 │   └── main.go            # Main application entry point
@@ -26,9 +26,11 @@ The project follows a standard Go project layout with clean architecture princip
 ### Directory Details
 
 #### `cmd/`
+
 Contains the main application entry points. This is where the application bootstrap happens and where the dependency injection is configured.
 
 #### `internal/`
+
 Contains the private application code that shouldn't be imported by other projects. It's organized into several subdirectories:
 
 - `app/`: Contains the core application logic and use cases
@@ -101,14 +103,19 @@ The application uses the following environment variables (configured in docker-c
 
 1. Clone the repository
 2. Install dependencies:
+
    ```bash
    go mod download
    ```
+
 3. Start the development environment:
+
    ```bash
    docker-compose up -d
    ```
+
 4. Run the application:
+
    ```bash
    go run cmd/main.go
    ```

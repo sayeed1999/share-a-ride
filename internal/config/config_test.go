@@ -39,6 +39,6 @@ func TestLoadConfig(t *testing.T) {
 	assert.Equal(t, "5432", cfg.Database.Port)
 	assert.Equal(t, "testuser", cfg.Database.User)
 	assert.Equal(t, "testpassword", cfg.Database.Password)
-	assert.Equal(t, "shareride", cfg.Database.Name)
+	assert.Equal(t, "shareride", cfg.Database.DBName)
 	assert.Equal(t, "disable", cfg.Database.SSLMode)
 }
