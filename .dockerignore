@@ -1,0 +1,11 @@
+.git
+.gitignore
+.env
+*.md
+docs/
+mocks/
+*.test
+tmp/
+.DS_Store
+.idea/
+.vscode/ 
