@@ -3,8 +3,6 @@ package config
 import (
 	"fmt"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 // Config holds all configuration of the application
@@ -51,9 +49,12 @@ func Load() (*Config, error) {
 		return cfg, nil
 	}
 
-	if err := godotenv.Load(); err != nil {
-		return nil, fmt.Errorf("error loading .env file: %w", err)
-	}
+	// Note:- godotenv is requiring a .env file to be present in the root directory,
+	// which is not ideal for production environments.
+	// In prod, docker or other orchestration tools will handle environment variables.
+	// if err := godotenv.Load(); err != nil {
+	// 	return nil, fmt.Errorf("error loading .env file: %w", err)
+	// }
 
 	cfg = &Config{
 		App: AppConfig{
@@ -85,7 +86,7 @@ func Load() (*Config, error) {
 	return cfg, nil
 }
 
-// Get returns the current config if it exists, otherwise loads it
+// Returns the current config if it exists, otherwise loads it
 func Get() (*Config, error) {
 	if cfg != nil {
 		return cfg, nil
@@ -93,7 +94,7 @@ func Get() (*Config, error) {
 	return Load()
 }
 
-// GetDSN returns the database connection string
+// Returns the database connection string
 func (c *DatabaseConfig) GetDSN() string {
 	return fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
@@ -106,7 +107,7 @@ func (c *DatabaseConfig) GetDSN() string {
 	)
 }
 
-// GetServerAddress returns the full server address
+// Returns the full server address
 func (c *ServerConfig) GetAddress() string {
 	return fmt.Sprintf("%s:%s", c.Host, c.Port)
 }
