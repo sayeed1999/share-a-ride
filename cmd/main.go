@@ -57,7 +57,8 @@ func main() {
 	r := router.New(authHandler, driverHandler, authMiddleware)
 	r.SetupRoutes()
 
-	// Start Gin server (simple way)
+	// Start Gin server on port 8000
+	log.Printf("Starting server on port %s", cfg.Server.Port)
 	if err := r.Engine().Run(":" + cfg.Server.Port); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}

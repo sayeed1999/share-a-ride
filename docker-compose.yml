@@ -4,7 +4,9 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app # needed for live reloading in local development
     ports:
       - "8080:8080"
     environment:
@@ -13,6 +15,7 @@ services:
       - db
     networks:
       - share-a-ride-network
+    command: ["air"]
 
   db:
     image: postgres:15-alpine
