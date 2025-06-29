@@ -3,11 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
 
 	"github.com/sayeed1999/share-a-ride/internal/app/http/handlers"
 	"github.com/sayeed1999/share-a-ride/internal/app/http/middleware"
@@ -62,35 +57,8 @@ func main() {
 	r := router.New(authHandler, driverHandler, authMiddleware)
 	r.SetupRoutes()
 
-	// Create server
-	srv := &http.Server{
-		Addr:         ":" + cfg.Server.Port,
-		Handler:      r.Engine(),
-		ReadTimeout:  cfg.Server.ReadTimeout,
-		WriteTimeout: cfg.Server.WriteTimeout,
+	// Start Gin server (simple way)
+	if err := r.Engine().Run(":" + cfg.Server.Port); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
 	}
-
-	// Start server in a goroutine
-	go func() {
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("Failed to start server: %v", err)
-		}
-	}()
-
-	// Wait for interrupt signal to gracefully shutdown the server
-	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-	<-quit
-	log.Println("Shutting down server...")
-
-	// Create a deadline for shutdown
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	// Shutdown server
-	if err := srv.Shutdown(ctx); err != nil {
-		log.Fatalf("Server forced to shutdown: %v", err)
-	}
-
-	log.Println("Server exiting")
 }
