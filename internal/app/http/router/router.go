@@ -28,6 +28,13 @@ func (r *Router) Engine() *gin.Engine {
 }
 
 func (r *Router) SetupRoutes() {
+	// Health check route
+	r.engine.GET("/health", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status": "healthy",
+		})
+	})
+
 	// Auth routes
 	auth := r.engine.Group("/auth")
 	{
